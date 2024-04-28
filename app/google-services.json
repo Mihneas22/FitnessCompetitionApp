@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "540878734035",
+    "project_id": "fitnesscompetitionapp",
+    "storage_bucket": "fitnesscompetitionapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540878734035:android:a0e6ea642c21be9332ca26",
+        "android_client_info": {
+          "package_name": "com.example.fitnesscompetitionapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCR1FR9v57fe7yLuGF7UUkqHXsimJQbX_g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
