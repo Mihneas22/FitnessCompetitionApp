@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.fitnesscompetitionapp.ui.mainapp.data.repository.CompetitionRepository
 import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.Competition
+import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.Competitor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,6 +17,7 @@ class CompetitionViewModel @Inject constructor(
 ): ViewModel(){
 
     var listOfCompetitions = mutableListOf<Competition>()
+    var listOfCompetitors = mutableListOf<Competitor>()
 
     fun getCompetitions()
     =viewModelScope.launch {
@@ -25,5 +27,10 @@ class CompetitionViewModel @Inject constructor(
     fun addCompetition(competition: Competition)
     =viewModelScope.launch {
         repo.addCompetition(competition)
+    }
+
+    fun getCompetitors(name: String)
+    =viewModelScope.launch {
+        listOfCompetitors = repo.getAllCompetitors(name).toMutableList()
     }
 }

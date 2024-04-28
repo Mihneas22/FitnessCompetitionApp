@@ -15,7 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.Competitor
 import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.User
 import com.example.fitnesscompetitionapp.ui.mainapp.presentation.screens.AuthScreens.LoginInScreen
 import com.example.fitnesscompetitionapp.ui.mainapp.presentation.screens.AuthScreens.SignUpScreen
@@ -69,11 +68,19 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("MainScreen"){
-                        MainScreen(navController = navController)
+                        MainScreen(navController = navController,name = user.name, email = user.email)
                     }
 
-                    composable("CompetitionScreen?name={name}&location={location}&date={date}&numOfPeople={numOfPeople}&winner={winner}&competitors={competitors}",
+                    composable("CompetitionScreen?nameUser={nameUser}&emailUser={emailUser}&name={name}&location={location}&date={date}&numOfPeople={numOfPeople}&winner={winner}&competitors={competitors}",
                         arguments = listOf(
+                            navArgument(name = "nameUser"){
+                                type = NavType.StringType
+                                nullable = true
+                            },
+                            navArgument(name = "emailUser"){
+                                type = NavType.StringType
+                                nullable = true
+                            },
                             navArgument(name = "name"){
                                     type = NavType.StringType
                                     nullable = true
@@ -83,10 +90,6 @@ class MainActivity : ComponentActivity() {
                                 nullable = true
                             },
                             navArgument(name = "date"){
-                                type = NavType.StringType
-                                nullable = true
-                            },
-                            navArgument(name = "numOfPeople"){
                                 type = NavType.StringType
                                 nullable = true
                             },
@@ -101,12 +104,14 @@ class MainActivity : ComponentActivity() {
                             )
                         ){backstackEntry->
                         CompetitionScreen(
+                            nameUser = backstackEntry.arguments?.getString("nameUser")!!,
+                            emailUser = backstackEntry.arguments?.getString("emailUser")!!,
                             name = backstackEntry.arguments?.getString("name")!!,
                             location = backstackEntry.arguments?.getString("location")!!,
                             date = backstackEntry.arguments?.getString("date")!!,
-                            numOfPeople = backstackEntry.arguments?.getString("numOfPeople")!!,
                             winner = backstackEntry.arguments?.getString("winner")!!,
-                            competitors = backstackEntry.arguments?.getStringArray("competitors")!!
+                            competitors = backstackEntry.arguments?.getStringArray("competitors")!!,
+                            navController = navController
                         )
                     }
                 }

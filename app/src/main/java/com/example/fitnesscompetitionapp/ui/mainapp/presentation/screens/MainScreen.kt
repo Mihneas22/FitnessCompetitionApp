@@ -1,5 +1,6 @@
 package com.example.fitnesscompetitionapp.ui.mainapp.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.Competition
+import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.Competitor
 import com.example.fitnesscompetitionapp.ui.mainapp.presentation.components.FitnessAppButton
 import com.example.fitnesscompetitionapp.ui.mainapp.presentation.viewmodels.AuthViewModel
 import com.example.fitnesscompetitionapp.ui.mainapp.presentation.viewmodels.CompetitionViewModel
@@ -35,6 +37,8 @@ import com.example.fitnesscompetitionapp.ui.theme.whiteNew
 
 @Composable
 fun MainScreen(
+    name:String,
+    email: String,
     navController: NavController,
     competitionViewModel: CompetitionViewModel = hiltViewModel()
 ) {
@@ -42,7 +46,7 @@ fun MainScreen(
     val getCompetitions = competitionViewModel.listOfCompetitions
     Column {
         HeaderMainScreen()
-        MainMenuScreen(competitionViewModel = competitionViewModel, competitionsList = getCompetitions, navController = navController)
+        MainMenuScreen(name = name, email = email,competitionViewModel = competitionViewModel, competitionsList = getCompetitions, navController = navController)
     }
 }
 @Composable
@@ -74,6 +78,8 @@ fun HeaderMainScreen(){
 
 @Composable
 fun MainMenuScreen(
+    name: String,
+    email: String,
     navController: NavController,
     competitionsList: List<Competition>,
     competitionViewModel: CompetitionViewModel
@@ -93,7 +99,9 @@ fun MainMenuScreen(
                 items(competitionsList.size){
                     com.example.fitnesscompetitionapp.ui.mainapp.presentation.screens.Competition(
                         navController = navController,
-                        competition = competitionsList[it]
+                        competition = competitionsList[it],
+                        nameUser = name,
+                        emailUser = email
                     )
                 }
             }
@@ -119,15 +127,20 @@ fun MainMenuScreen(
 
 @Composable
 fun Competition(
+    nameUser: String,
+    emailUser: String,
     navController: NavController,
     competition: Competition
 ){
+    val listName = mutableListOf<String>()
     Card(modifier = Modifier
         .height(200.dp)
         .width(240.dp)
         .padding(start = 20.dp, end = 20.dp)
         .clickable {
-            navController.navigate("CompetitionScreen?name=${competition.name}&location=${competition.location}&date=${competition.date}&numOfPeople=${competition.numOfPeople}&winner=${competition.winner}&competitors=${competition.competitors}")
+            val comp = competition.competitors
+            Log.d("checkError", comp.toString())
+            navController.navigate("CompetitionScreen?nameUser={$nameUser}&emailUser={$emailUser}&name=${competition.name}&location=${competition.location}&date=${competition.date}&winner=${competition.winner}&competitors=${listName}")
         },
         colors = CardDefaults.cardColors(
             lightWhiteNew

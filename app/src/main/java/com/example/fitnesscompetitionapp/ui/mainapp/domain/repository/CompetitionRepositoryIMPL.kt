@@ -1,5 +1,7 @@
 package com.example.fitnesscompetitionapp.ui.mainapp.domain.repository
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import com.example.fitnesscompetitionapp.ui.mainapp.data.repository.CompetitionRepository
 import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.Competition
 import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.Competitor
@@ -43,5 +45,10 @@ class CompetitionRepositoryIMPL @Inject constructor(
         Resource.Success(true)
     }catch (ex: Exception){
         Resource.Failure(ex)
+    }
+
+    override suspend fun getAllCompetitors(name: String): List<Competitor> {
+        val db = fb.collection("competitions").document(name).get().await().data
+        return db?.get("competitors") as List<Competitor>
     }
 }
