@@ -1,5 +1,6 @@
 package com.example.fitnesscompetitionapp.ui.mainapp.presentation.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +17,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -24,12 +28,14 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.Competition
+import com.example.fitnesscompetitionapp.ui.mainapp.domain.models.Competitor
 import com.example.fitnesscompetitionapp.ui.mainapp.presentation.components.FitnessAppButton
 import com.example.fitnesscompetitionapp.ui.mainapp.presentation.viewmodels.CompetitionViewModel
 import com.example.fitnesscompetitionapp.ui.mainapp.presentation.viewmodels.UserViewModel
 import com.example.fitnesscompetitionapp.ui.theme.aquaNew
 import com.example.fitnesscompetitionapp.ui.theme.blueNew
 import com.example.fitnesscompetitionapp.ui.theme.whiteNew
+import org.checkerframework.checker.units.qual.A
 
 @Composable
 fun CompetitionScreen(
@@ -46,6 +52,25 @@ fun CompetitionScreen(
 ){
     competitionViewModel.getCompetitors(name)
     val listOfCompetitorsSize = competitionViewModel.listOfCompetitors.size
+    val listOfCompetitors = competitionViewModel.listOfCompetitors
+    listOfCompetitors.sortBy {
+        it["competitor_points"] as Int
+    }
+
+    val newListOfCompetitors = mutableListOf<Competitor>()
+
+    if(listOfCompetitors.isNotEmpty()){
+        for (competitor in listOfCompetitors){
+            val competitor = Competitor(
+                name = competitor["competitor_name"] as String,
+                email = competitor["competitor_name"] as String,
+                points = competitor["competitor_points"] as Long,
+            )
+            newListOfCompetitors.add(competitor)
+        }
+        Log.d("competitorList",newListOfCompetitors.toString())
+    }
+
     Card(modifier = Modifier
         .fillMaxSize(),
         shape = RectangleShape,
@@ -103,13 +128,9 @@ fun CompetitionScreen(
                 onButClick = {
                     competitionViewModel.getCompetitors(name)
                     val competition = Competition(
-                        name, location, listOfCompetitorsSize.toString(), date, winner, competitionViewModel.listOfCompetitors
+                        name, location, listOfCompetitorsSize.toString(), date, winner, newListOfCompetitors
                     )
 
-                    val listOfCompetitors = competitionViewModel.listOfCompetitors
-                    listOfCompetitors.sortBy {
-                        it.points
-                    }
                     userViewModel.applyForComp(competition,name,nameUser,emailUser)
                 },
                 color = aquaNew,

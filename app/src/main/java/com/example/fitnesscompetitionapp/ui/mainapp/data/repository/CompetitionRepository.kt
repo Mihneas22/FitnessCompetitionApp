@@ -10,5 +10,5 @@ interface CompetitionRepository {
 
     suspend fun addCompetition(competition: Competition): Resource<Boolean>
 
-    suspend fun getAllCompetitors(name: String): List<Competitor>
+    suspend fun getAllCompetitors(name: String): List<HashMap<String,Any>>
 }

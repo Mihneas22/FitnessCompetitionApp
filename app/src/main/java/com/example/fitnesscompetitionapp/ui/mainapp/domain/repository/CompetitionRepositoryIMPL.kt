@@ -47,8 +47,8 @@ class CompetitionRepositoryIMPL @Inject constructor(
         Resource.Failure(ex)
     }
 
-    override suspend fun getAllCompetitors(name: String): List<Competitor> {
+    override suspend fun getAllCompetitors(name: String): List<HashMap<String,Any>> {
         val db = fb.collection("competitions").document(name).get().await().data
-        return db?.get("competitors") as List<Competitor>
+        return db?.get("competitors") as List<HashMap<String,Any>>
     }
 }

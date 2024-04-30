@@ -17,7 +17,7 @@ class CompetitionViewModel @Inject constructor(
 ): ViewModel(){
 
     var listOfCompetitions = mutableListOf<Competition>()
-    var listOfCompetitors = mutableListOf<Competitor>()
+    var listOfCompetitors = mutableListOf<HashMap<String,Any>>()
 
     fun getCompetitions()
     =viewModelScope.launch {
