@@ -126,19 +126,30 @@ fun CompetitionScreen(
                 )
             }
 
-            FitnessAppButton(
-                modifier = Modifier.padding(top = 20.dp),
-                text = "Apply",
-                onButClick = {
-                    competitionViewModel.getCompetitors(name)
-                    val competition = Competition(
-                        name, location, listOfCompetitorsSize.toString(), date, winner, newListOfCompetitors
-                    )
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                FitnessAppButton(
+                    modifier = Modifier.padding(top = 20.dp),
+                    text = "Apply",
+                    onButClick = {
+                        competitionViewModel.getCompetitors(name)
+                        val competition = Competition(
+                            name, location, listOfCompetitorsSize.toString(), date, winner, newListOfCompetitors
+                        )
 
-                    userViewModel.applyForComp(competition,name,nameUser,emailUser)
-                },
-                color = aquaNew,
-                textColor = whiteNew)
+                        userViewModel.applyForComp(competition,name,nameUser,emailUser)
+                    },
+                    color = aquaNew,
+                    textColor = whiteNew)
+
+                FitnessAppButton(
+                    modifier = Modifier.padding(top = 20.dp),
+                    text = "Admin Dashboard",
+                    onButClick = {
+                        navController.navigate("AdminDashboardScreen")
+                    },
+                    color = aquaNew,
+                    textColor = whiteNew)
+            }
 
             Card(modifier = Modifier
                 .fillMaxWidth()
